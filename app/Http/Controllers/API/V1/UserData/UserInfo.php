@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\API\V1\UserData;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserInfoRequest;
+use App\Http\Resources\UserInfoResource;
 
 class UserInfo extends Controller
 {
@@ -18,9 +22,15 @@ class UserInfo extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserInfoRequest $request)
     {
-        //
+        $data = $request->validated();
+        $user = User::create([
+            'fullName' => $data['fullName'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password'])
+        ]);
+        return new UserInfoResource($user);
     }
 
     /**

@@ -11,7 +11,7 @@ class UserInfoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,8 +22,9 @@ class UserInfoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fullname' => 'string|required',
+            'fullName' => 'string|required',
             'email' => 'email|required',
+            'password' => 'string|required|min:8',
             'password' => 'string|required|min:8|confirmed'
         ];
     }
