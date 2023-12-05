@@ -11,7 +11,7 @@ class RoomReviewsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,9 +22,9 @@ class RoomReviewsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'roomId' => $this->roomId,
-            'roomComments' => $this->roomComments,
-            'roomReviews' => $this->roomReviews
+            'roomId' => 'integer|nullable',
+            'roomComments' => 'string|nullable',
+            'roomReviews' => 'string|nullable'
         ];
     }
 }

@@ -2,31 +2,30 @@
 
 namespace App\Http\Controllers\API\V1\Rooms;
 
-use App\Models\Rooms;
+use App\Models\RoomReview;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\v1\Request\RoomRequest;
-use App\Http\Resources\API\v1\Rooms\RoomResource;
+use App\Http\Resources\API\v1\Rooms\RoomReviewResource;
+use App\Http\Requests\API\v1\Request\RoomReviewsRequest;
 
-class RoomsController extends Controller
+class RoomReviewsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Rooms::all()->paginate(8);
+        return RoomReview::all()->paginate(8);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RoomRequest $request)
+    public function store(RoomReviewsRequest $request)
     {
-        $room = $request->validated();
-        $rooms = Rooms::create($room);
-
-        return new RoomResource($rooms);
+        $data = $request->validated();
+        $review = RoomReview::create($data);
+        return new RoomReviewResource($review);
     }
 
     /**
@@ -34,31 +33,32 @@ class RoomsController extends Controller
      */
     public function show(string $id)
     {
-        $rooms = Rooms::find($id);
-        return new RoomResource($rooms);
+        $review = RoomReview::find($id);
+        return new RoomReviewResource($review);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(RoomRequest $request, string $id)
+    public function update(RoomReviewsRequest $request, string $id)
     {
-        $roomId = Rooms::find($id);
-        $update = $roomId->update($request->validated());
+        $review = RoomReview::find($id);
+        $rooms = $review->update($request->validated());
+
         return response()->json([
             'status' => 200,
             'message' => 'Data Updated Successfully',
-            'data' => $roomId
+            'data' => $review
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Rooms $rooms, string $id)
+    public function destroy(string $id)
     {
-        $delete = Rooms::find($id);
-        $delete->delete($rooms);
+        $review = RoomReview::find($id);
+        $delete = $review->delete();
         return response()->json([
             'status' => 200,
             'message' => 'Data Deleted Successfully'

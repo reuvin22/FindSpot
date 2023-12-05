@@ -23,11 +23,11 @@ class Rooms extends Model
      */
     public function roomReviews()
     {
-        return $this->hasMany(RoomReview::class, 'roomId');
+        return $this->hasOne(RoomReview::class, 'roomId');
     }
 
     public function roomImages()
     {
-        return $this->hasMany(RoomImages::class, 'roomId');
+        return $this->hasOne(RoomImages::class, 'roomId');
     }
 }

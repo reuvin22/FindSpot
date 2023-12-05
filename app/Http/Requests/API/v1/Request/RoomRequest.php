@@ -23,7 +23,7 @@ class RoomRequest extends FormRequest
     {
         return [
             'roomId' => 'integer|nullable',
-            'descriptions' => 'string|nullable|min:20'
+            'descriptions' => 'string|nullable'
         ];
     }
 }

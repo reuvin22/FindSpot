@@ -4,6 +4,8 @@ namespace App\Http\Resources\API\v1\Rooms;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\API\v1\Rooms\RoomImagesResource;
+use App\Http\Resources\API\v1\Rooms\RoomReviewResource;
 
 class RoomResource extends JsonResource
 {
@@ -17,8 +19,8 @@ class RoomResource extends JsonResource
         return [
             'roomId' => $this->roomId,
             'descriptions' => $this->descriptions,
-            'roomImages' => new RoomImagesResource($roomImages),
-            'roomReviews' => new RoomReviewsResource($roomReviews)
+            'roomImages' => new RoomImagesResource($this->roomImages),
+            'roomReviews' => new RoomReviewResource($this->roomReviews)
         ];
     }
 }
