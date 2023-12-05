@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1\UserData;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,7 @@ class UserInfo extends Controller
     {
         $data = $request->validated();
         $user = User::create([
-            'fullName' => $data['fullName'],
+            'fullName' => Str::title($data['fullName']),
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
@@ -36,17 +37,25 @@ class UserInfo extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        return new UserInfoResource($user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserInfoRequest $request, User $user)
     {
-        //
+        $data = $user->update($request->validated());
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data Updated Successfully',
+            'data' => [
+                'fullName' => $user->fullName,
+                'email' => $user->email
+            ]
+        ], 200);
     }
 
     /**
@@ -54,6 +63,11 @@ class UserInfo extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data Deleted Successfully'
+        ], 200);
     }
 }

@@ -66,7 +66,7 @@ return [
         'mongodb' => [
             'driver' => 'mongodb',
             'dsn' => env('DB_URI', 'mongodb+srv://reuvin111:reuvin12345@findspot.wbfayay.mongodb.net/'),
-            'database' => 'myappdb',
+            'database' => 'chatapi',
         ],
 
         'pgsql' => [
