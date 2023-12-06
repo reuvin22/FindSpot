@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\V1\Rooms;
 
 use App\Models\Rooms;
+use App\Events\ChatEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\v1\Request\RoomRequest;
@@ -34,6 +35,7 @@ class RoomsController extends Controller
      */
     public function show(string $id)
     {
+        event(new ChatEvent());
         $rooms = Rooms::find($id);
         return new RoomResource($rooms);
     }
