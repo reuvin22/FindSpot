@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1\UserData;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\EmailVerification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserInfoRequest;
@@ -31,6 +32,8 @@ class UserInfo extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
+
+        Mail::send(new EmailVerification())->to($user->email);
         return new UserInfoResource($user);
     }
 

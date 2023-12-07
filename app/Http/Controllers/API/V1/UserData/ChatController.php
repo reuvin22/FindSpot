@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\v1\UserData;
 
 use App\Models\Chat;
+use App\Events\ChatEvent;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\ChatRequest;
@@ -35,6 +36,7 @@ class ChatController extends Controller
             'receiverId' => $data['receiverId']
         ]);
 
+        event(new ChatEvent($chat));
         return new ChatResource($chat);
     }
 

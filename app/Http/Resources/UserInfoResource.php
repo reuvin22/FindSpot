@@ -15,6 +15,7 @@ class UserInfoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'message' => 'Email Verification Sent Successfully',
             'fullName' => $this->fullName,
             'email' => $this->email
         ];

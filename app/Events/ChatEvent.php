@@ -17,9 +17,10 @@ class ChatEvent implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public $chat;
+    public function __construct($chat)
     {
-
+        $this->chat = $chat;
     }
 
     /**
@@ -29,6 +30,10 @@ class ChatEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('public.chat.1');
+        return new PresenceChannel('presence.chat.1');
+    }
+    public function broadcastAs()
+    {
+        return 'findSpotChat';
     }
 }

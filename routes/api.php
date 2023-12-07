@@ -21,8 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function() {
-    require __DIR__ . '\User\User.php';
-    require __DIR__ . '\Rooms\rooms.php';
     Route::post('login', [LoginController::class, 'login']);
     Route::post('logout', [LoginController::class, 'logout']);
+    Route::post('register', [UserInfo::class, 'store']);
+    Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+        require __DIR__ . '\User\User.php';
+        require __DIR__ . '\Rooms\rooms.php';
+    });
 });

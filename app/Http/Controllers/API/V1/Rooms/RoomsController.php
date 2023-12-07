@@ -35,7 +35,6 @@ class RoomsController extends Controller
      */
     public function show(string $id)
     {
-        event(new ChatEvent());
         $rooms = Rooms::find($id);
         return new RoomResource($rooms);
     }
