@@ -5,27 +5,35 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
 class EmailVerification extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user, $notifiable;
+
+    public $verificationUrl;
+    public $user;
     /**
      * Create a new message instance.
+     *
+     * @param  string  $verificationUrl
+     * @return void
      */
-    public function __construct($notifiable, $url)
+    public function __construct($verificationUrl, $user)
     {
-        $this->notifiable = $notifiable;
-        $this->url = $url;
+        $this->verificationUrl = $verificationUrl;
+        $this->user = $user;
     }
 
-   public function build()
-   {
-        return $this->subject('Email Verification')
-        ->view('verify-email')
-        ->with($this->url);
-   }
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->markdown('auth.verify-email')
+                    ->subject('Verify Your Email Address')
+                    ->with(['user' => $this->user]);
+    }
 }

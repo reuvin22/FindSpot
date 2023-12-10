@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\UserInfoRequest;
+use Illuminate\Auth\Events\Registered;
 use App\Http\Resources\UserInfoResource;
 
 class UserInfo extends Controller
@@ -33,7 +35,6 @@ class UserInfo extends Controller
             'password' => Hash::make($data['password'])
         ]);
 
-        Mail::send(new EmailVerification())->to($user->email);
         return new UserInfoResource($user);
     }
 

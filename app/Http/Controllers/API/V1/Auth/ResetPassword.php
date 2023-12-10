@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\API\V1\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Mail\EmailForgotPassword;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class ResetPassword extends Controller
 {

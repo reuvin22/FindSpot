@@ -2,50 +2,56 @@
 
 namespace App\Http\Controllers\API\v1\UserData;
 
-use App\Models\Chat;
-use App\Events\ChatEvent;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Requests\ChatRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ChatResource;
 use Illuminate\Support\Facades\Auth;
+use Kreait\Firebase\Contract\Database;
 
 class ChatController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Database $database)
     {
-        //
+        $chat = $database->getReference('chat')->getValue();
+        return $chat;
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Database $database)
     {
         $data = $request->json()->all();
         $user = Auth::user();
-        $chat = Chat::create([
+
+        $chats = [
             'conversationId' => Str::random(10),
-            'userId' => $user->id,
-            'fullName' => $user->fullName,
+            'fullName' => "Reuvin Hernandez",
             'message' => $data['message'],
             'receiverId' => $data['receiverId']
-        ]);
+        ];
 
-        event(new ChatEvent($chat));
-        return new ChatResource($chat);
+        $store = $database->getReference('chat')->push($chats);
+        if($store){
+            return response()->json([
+                "message" => 'Message sent Successfully'
+            ], 200);
+        }else {
+            return response()->json([
+                "message" => 'Failed to send message'
+            ], 400);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Database $database, string $id)
     {
-        //
+
     }
 
     /**
@@ -59,8 +65,11 @@ class ChatController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Database $database, string $id)
     {
-        //
+        $delete = $database->getReference('chat/'.$id);
+        return response()->json([
+            'message' => 'Data Deleted Successfully'
+        ], 200);
     }
 }
