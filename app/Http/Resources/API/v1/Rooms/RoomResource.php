@@ -20,7 +20,7 @@ class RoomResource extends JsonResource
             'roomId' => $this->id,
             'descriptions' => $this->descriptions,
             'roomImages' => RoomImagesResource::collection($this->roomImages),
-            'roomReviews' => new RoomReviewResource($this->roomReviews)
+            'roomReviews' => RoomReviewResource::collection($this->roomReviews)
         ];
     }
 }

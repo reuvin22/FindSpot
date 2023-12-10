@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Api\v1\request;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserInfoRequest extends FormRequest
+class wishListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -21,12 +22,10 @@ class UserInfoRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = Auth::user();
         return [
-            'fullName' => 'string|required',
-            'email' => 'email|required',
-            'address' => 'string|nullable',
-            'password' => 'string|nullable|min:8',
-            'password' => 'string|nullable|min:8|confirmed'
+            "userId" => $user->id,
+            "roomId" => 'integer|required'
         ];
     }
 }

@@ -31,6 +31,7 @@ class UserInfo extends Controller
         $data = $request->validated();
         $user = User::create([
             'fullName' => Str::title($data['fullName']),
+            'address' => $data['address'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);

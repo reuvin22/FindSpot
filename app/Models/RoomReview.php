@@ -25,4 +25,8 @@ class RoomReview extends Model
     {
         return $this->belongsTo(Rooms::class, 'id');
     }
+    public function wishList()
+    {
+        return $this->belongsTo(wishList::class, 'roomId');
+    }
 }

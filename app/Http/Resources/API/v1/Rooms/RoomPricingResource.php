@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\API\v1\Rooms;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserInfoResource extends JsonResource
+class RoomPricingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,8 @@ class UserInfoResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'message' => 'Email Verification Sent Successfully',
-            'address' => $this->address,
-            'fullName' => $this->fullName,
-            'email' => $this->email
+          'roomId' => $this->roomId,
+          'roomPrice' => $this->roomPrice
         ];
     }
 }

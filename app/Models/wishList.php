@@ -2,42 +2,40 @@
 
 namespace App\Models;
 
+use App\Models\Rooms;
 use App\Models\RoomImages;
 use App\Models\RoomReview;
 use App\Models\RoomPricing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Rooms extends Model
+class wishList extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'descriptions'
+        'roomId'
     ];
 
     /**
-     * Get all of the comments for the Rooms
+     * Get all of the comments for the wishList
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function roomReviews()
+    public function rooms()
     {
-        return $this->hasMany(RoomReview::class, 'roomId');
+        return $this->hasMany(Rooms::class, 'id');
     }
-
     public function roomImages()
     {
         return $this->hasMany(RoomImages::class, 'roomId');
     }
-
     public function roomPricing()
     {
         return $this->hasMany(RoomPricing::class, 'roomId');
     }
-
-    public function wishList()
+    public function roomReview()
     {
-        return $this->belongsTo(wishList::class, 'roomId');
+        return $this->hasMany(RoomReview::class, 'roomId');
     }
 }
