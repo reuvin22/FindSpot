@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('room_pricings', function (Blueprint $table) {
             $table->id();
+            $table->integer('roomId')->unsigned();
+            $table->float('roomPrice', 8, 2);
             $table->timestamps();
         });
     }
