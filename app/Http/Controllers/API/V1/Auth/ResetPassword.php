@@ -3,22 +3,18 @@
 namespace App\Http\Controllers\API\V1\Auth;
 
 use App\Models\User;
-use App\Mail\EmailForgotPassword;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+use App\Mail\EmailForgotPassword;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\API\v1\Auth\ResetPasswordRequest;
 
 class ResetPassword extends Controller
 {
-    public function emailForgotPassword(Request $request)
+    public function emailForgotPassword(ResetPasswordRequest $request)
     {
-        $data = $request->json()->all();
-
-        $validation = Validator::make($data, [
-            'email' => 'required|email',
-        ]);
+        $validation = Validator::make($request->validated());
 
         if ($validation->fails()) {
             return response()->json([
@@ -27,7 +23,7 @@ class ResetPassword extends Controller
             ], 400);
         }
 
-        $email = $data['email'];
+        $email = $validation['email'];
         $user = User::where('email', $email)->first();
 
         if (!$user) {

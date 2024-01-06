@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1\Rooms;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\v1\Rooms\RoomImagesResource;
 use App\Models\RoomImages;
 use Illuminate\Support\Facades\Storage;
 use Kreait\Firebase\Factory;
@@ -56,7 +57,25 @@ class RoomImagesController extends Controller
      */
     public function show(string $id)
     {
+        $room = RoomImages::find($id);
+        if(empty($room)){
+            return response()->json([
+                'status' => 200,
+                'message' => 'No Records to show'
+            ], 200);
+        }
 
+        if($room){
+            return response()->json([
+                'status' => 200,
+                'image' => new RoomImagesResource($room)
+            ], 200);
+        }else {
+            return response()->json([
+                'status' => 400,
+                'image' => "Failed to load image"
+            ], 400);
+        }
     }
 
     /**
@@ -82,7 +101,6 @@ class RoomImagesController extends Controller
                 'roomImages' => $filename,
             ];
         }
-
         return response()->json([
             'message' => 'Room Images Updated Successfully',
             'roomImages' => $uploadedImages,
